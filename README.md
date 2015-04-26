@@ -7,3 +7,4 @@ Updates/edits will include:
 * layout improvements
 * page coloration for use at night (including recoloring images)
 * maybe responsive design
+* get all gifs from footer
