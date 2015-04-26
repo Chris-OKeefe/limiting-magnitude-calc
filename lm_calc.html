@@ -1,0 +1,1021 @@
+<HTML>
+
+
+<!--  Put introductory text between "BEGIN/END INTRODUCTORY TEXT" below  //-->
+
+
+<HEAD>
+	<TITLE>Limiting Magnitude Field Locator and Calculator</TITLE>
+	<BASE HREF="http://www.namnmeteors.org/">
+	<meta name="Description" content="Limiting Magnitude Field Locator and Calculator">
+	<meta name="Keywords" content="limiting magnitude, LM, stars">
+
+
+<SCRIPT LANGUAGE="JAVASCRIPT">
+<!--
+
+
+//-------------------------------------------------------------------
+//
+//  Written by:  Peter Girard, May 2000
+//
+//  The contents of this page are released to the public domain.
+//  Please credit me if you use significant portions of this code
+//  in your own pages.  
+//
+//-------------------------------------------------------------------
+
+
+
+
+var maxFields = 3
+//var fieldImagePrefix = "http://www.namnmeteors.org/lm"
+var fieldImagePrefix = "lm"
+
+
+var nearestFields = new Array()
+
+
+
+
+// -- data
+
+
+var fieldCenters = new Array()
+fieldCenters[0] =  new Array(271.167, 65.331)
+fieldCenters[1] =  new Array( 54.559, 39.940)
+fieldCenters[2] =  new Array(151.129, 57.386)
+fieldCenters[3] =  new Array(108.976, 28.035)
+fieldCenters[4] =  new Array(291.308,  9.295)
+fieldCenters[5] =  new Array(356.602, 20.054)
+fieldCenters[6] =  new Array(328.186, 64.061)
+fieldCenters[7] =  new Array( 77.297, 21.729)
+fieldCenters[8] =  new Array(163.927, 16.266)
+fieldCenters[9] =  new Array(198.213, -4.448)
+fieldCenters[10] = new Array(221.771, 28.130)
+fieldCenters[11] = new Array(236.084, -2.395)
+fieldCenters[12] = new Array(275.100, 34.544)
+fieldCenters[13] = new Array(305.586, 36.382)
+fieldCenters[14] = new Array(255.645, 45.192)
+fieldCenters[15] = new Array(197.581, 47.474)
+fieldCenters[16] = new Array( 85.508, 45.519)
+fieldCenters[17] = new Array( 21.266, 42.796)
+fieldCenters[18] = new Array(206.713, 69.963)
+fieldCenters[19] = new Array( 80.026, 67.621)
+fieldCenters[20] = new Array(346.142,-22.300)
+fieldCenters[21] = new Array( 76.923,-14.678)
+fieldCenters[22] = new Array(185.917,-20.335)
+fieldCenters[23] = new Array(228.080,-17.063)
+fieldCenters[24] = new Array(245.788,-31.776)
+fieldCenters[25] = new Array(238.650,-64.367)
+fieldCenters[26] = new Array(196.658,-60.729)
+fieldCenters[27] = new Array(134.087,-63.492)
+fieldCenters[28] = new Array( 31.610,-71.336)
+fieldCenters[29] = new Array(315.630,-64.313)
+
+
+var constellations = new Array()
+constellations[0] =  "Draco"
+constellations[1] =  "Perseus"
+constellations[2] =  "Ursa Major"
+constellations[3] =  "Gemini"
+constellations[4] =  "Aquila"
+constellations[5] =  "Andromeda and Pegasus"
+constellations[6] =  "Cepheus"
+constellations[7] =  "Auriga and Taurus"
+constellations[8] =  "Leo"
+constellations[9] =  "Virgo"
+constellations[10] = "Bootes and Corona Borealis"
+constellations[11] = "Libra, Ophiuchus and Serpens Caput"
+constellations[12] = "Hercules and Lyra"
+constellations[13] = "Cygnus"
+constellations[14] = "Draco and Hercules"
+constellations[15] = "Canes Venatici and Ursa Major"
+constellations[16] = "Auriga"
+constellations[17] = "Andromeda"
+constellations[18] = "Draco and Ursa Minor"
+constellations[19] = "Camelopardalis"
+constellations[20] = "Aquarius, Piscis Austrinus and Sculptor"
+constellations[21] = "Eridanus, Lepus and Orion"
+constellations[22] = "Corvus"
+constellations[23] = "Libra"
+constellations[24] = "Lupus and Scorpius"
+constellations[25] = "Ara, Centaurus, Circinus, Norma and Triangulum Australe"
+constellations[26] = "Centaurus and Crux"
+constellations[27] = "Carina and Volans"
+constellations[28] = "Horologium, Hydrus and Mensa"
+constellations[29] = "Indus, Pavo and Tucana"
+
+
+var stars = new Array()
+stars[0] =  new Array("Chi Draconis",
+                      "Zeta Draconis",
+                      "Delta Draconis (Altais)",
+                      "Xi Draconis")
+stars[1] =  new Array("Beta Persei (Algol)",
+                      "Delta Persei",
+                      "Zeta Persei (Atik)")
+stars[2] =  new Array("23 Ursae Majoris",
+                      "Theta Ursae Majoris",
+                      "Beta Ursae Majoris (Merak)")
+stars[3] =  new Array("Alpha Geminorum (Castor)",
+                      "Epsilon Geminorum (Mebsuta)",
+                      "Beta Geminorum (Pollux)")
+stars[4] =  new Array("Zeta Aquilae",
+                      "Gamma Aquilae (Tarazed)",
+                      "Delta Aquilae")
+stars[5] =  new Array("Alpha Andromedae (Alpheratz)",
+                      "Gamma Pegasi (Algenib)",
+                      "Alpha Pegasi (Markab)")
+stars[6] =  new Array("Alpha Cephei (Alderamin)",
+                      "Beta Cephei (Alfirk)",
+                      "Delta Cephei")
+stars[7] =  new Array("Alpha Tauri (Aldebaran)",
+                      "Beta Tauri (Elnath)",
+                      "Zeta Tauri")
+stars[8] =  new Array("Alpha Leonis (Regulus)",
+                      "Beta Leonis (Denebola)",
+                      "Gamma Leonis (Algieba)",
+                      "Delta Leonis (Zosma)")
+stars[9] =  new Array("Alpha Virginis (Spica)",
+                      "Zeta Virginis",
+                      "Gamma Virginis (Porrima)")
+stars[10] = new Array("Alpha Coronae Borealis (Alphecca)",
+                      "Gamma Bootis (Seginus)",
+                      "Alpha Bootis (Arcturus)")
+stars[11] = new Array("Alpha Serpentis (Unukalhai)",
+                      "Beta Librae (Zubeneschamali)",
+                      "Delta Ophiuchii (Yed Prior)")
+stars[12] = new Array("Beta Lyrae (Sheliak)",
+                      "Zeta Lyrae",
+                      "Theta Herculis",
+                      "Nu Herculis")
+stars[13] = new Array("Epsilon Cygni",
+                      "Eta Cygni",
+                      "Gamma Cygni (Sadr)")
+stars[14] = new Array("Beta Draconis (Rastaban)",
+                      "Tau Herculis",
+                      "Pi Herculis")
+stars[15] = new Array("Alpha Canum Venaticorum (Cor Caroli)",
+                      "Epsilon Ursae Majoris (Alioth)",
+                      "Eta Ursae Majoris (Alkaid)")
+stars[16] = new Array("Epsilon Aurigae",
+                      "Theta Aurigae",
+                      "Delta Aurigae")
+stars[17] = new Array("Mu Andromedae",
+                      "Gamma Andromedae (Almach)",
+                      "Phi Andromedae")
+stars[18] = new Array("Kappa Draconis",
+                      "Alpha Draconis (Thuban)",
+                      "Beta Ursae Minoris (Kochab)")
+stars[19] = new Array("42 Camelopardalis",
+                      "Beta Camelopardalis",
+                      "Gamma Camelopardalis")
+stars[20] = new Array("Alpha Piscis Austrini (Fomalhaut)",
+                      "98 Aquarii",
+                      "Delta Aquarii (Skat)")
+stars[21] = new Array("Beta Leporis (Nihal)",
+                      "Beta Orionis (Rigel)",
+                      "53 Eridani")
+stars[22] = new Array("Delta Corvi (Algorab)",
+                      "Gamma Corvi (Gienah)",
+                      "Epsilon Corvi",
+                      "Beta Corvi")
+stars[23] = new Array("Beta Librae (Zubeneschamali)",
+                      "Gamma Librae",
+                      "Sigma Librae",
+                      "Alpha Librae (Zubenelgenubi)")
+stars[24] = new Array("Alpha Scorpii (Antares)",
+                      "Epsilon Scorpii",
+                      "Chi Lupi")
+stars[25] = new Array("Gamma Trianguli Australe",
+                      "Alpha Trianguli Australe (Atria)",
+                      "Eta Arae",
+                      "Alpha Centauri (Rigel Kentaurus)")
+stars[26] = new Array("Beta Centauri (Hadar)",
+                      "Alpha 1 Crucis (Acrux)",
+                      "Gamma Crucis (Gacrux)")
+stars[27] = new Array("Beta Carinae (Miaplacidus)",
+                      "Epsilon Carinae (Avior)",
+                      "Iota Carinae (Aspidiske)")
+stars[28] = new Array("Gamma Hydri",
+                      "Alpha Hydri",
+                      "Beta Hydri")
+stars[29] = new Array("Alpha Tucanae",
+                      "Alpha Pavonis (Peacock)",
+                      "Epsilon Pavonis")
+
+
+var mags = new Array()
+mags[0] =  new Array(3.08,3.18,3.57,3.74,4.23,4.78,4.83,5.00,5.08,5.25,
+                     5.96,6.06,6.28,6.42,6.50,6.60,6.63,6.65,6.66,6.68,
+                     6.68,6.70,6.79,6.86,6.86,6.86,6.86,6.87,6.89,6.92,
+                     6.92,6.93,6.94,7.02,7.03,7.04,7.09,7.10,7.10,7.15,
+                     7.24,7.30,7.31,7.32,7.33,7.35,7.35,7.36,7.39,7.43,
+                     7.50)
+mags[1] =  new Array(2.11,2.88,3.02,3.78,4.95,5.15,5.55,5.60,5.79,5.80,
+                     5.98,6.01,6.07,6.40,6.41,6.45,6.50,6.51,6.54,6.60,
+                     6.61,6.66,6.72,6.73,6.75,6.78,6.85,6.89,6.90,7.02,
+                     7.03,7.03,7.05,7.15,7.15,7.16,7.18,7.22,7.23,7.24,
+                     7.24,7.25,7.26,7.27,7.28,7.30,7.31,7.31,7.33,7.33,
+                     7.35,7.35,7.36,7.42,7.45,7.48,7.49,7.50,7.50)
+mags[2] =  new Array(2.35,3.18,3.65,3.78,4.48,4.56,4.83,5.13,5.16,5.49,
+                     5.66,5.72,5.79,5.97,6.19,6.30,6.35,6.41,6.49,6.49,
+                     6.54,6.59,6.72,6.77,6.83,6.85,6.99,7.01,7.06,7.12,
+                     7.12,7.19,7.20,7.23,7.24,7.30,7.33,7.40,7.41,7.44,
+                     7.45,7.47,7.48,7.50)
+mags[3] =  new Array(1.22,2.02,3.01,3.79,5.01,5.07,5.34,5.75,5.76,5.78,
+                     6.20,6.37,6.47,6.54,6.67,6.76,6.80,6.99,7.00,7.02,
+                     7.10,7.12,7.17,7.22,7.43,7.45,7.46,7.46,7.47)
+mags[4] =  new Array(2.71,2.99,3.37,4.45,5.16,5.30,5.53,5.98,6.02,6.31,
+                     6.36,6.71,6.72,6.77,6.80,6.90,6.91,6.96,7.00,7.05,
+                     7.06,7.07,7.09,7.10,7.11,7.27,7.28,7.38,7.39,7.40,
+                     7.41,7.44,7.45,7.47)
+mags[5] =  new Array(2.06,2.49,2.84,4.66,5.08,5.49,5.56,5.80,6.13,6.14,
+                     6.17,6.25,6.25,6.26,6.29,6.44,6.47,6.50,6.50,6.57,
+                     6.59,6.59,6.60,6.60,6.67,6.68,6.68,6.69,6.72,6.73,
+                     6.74,6.82,6.87,6.89,6.89,7.07,7.07,7.10,7.11,7.12,
+                     7.12,7.14,7.15,7.19,7.24,7.27,7.33,7.37,7.43,7.44,
+                     7.45,7.45,7.45,7.49,7.49,7.50)
+mags[6] =  new Array(2.47,3.23,4.07,4.23,4.79,5.12,5.17,5.26,5.29,5.36,
+                     5.42,5.73,5.95,5.96,6.00,6.14,6.19,6.23,6.44,6.47,
+                     6.48,6.63,6.69,6.70,6.71,6.72,6.84,6.88,6.92,6.93,
+                     6.94,6.97,7.01,7.04,7.06,7.08,7.16,7.18,7.23,7.24,
+                     7.25,7.25,7.27,7.29,7.30,7.32,7.35,7.39,7.43,7.44,
+                     7.46,7.49)
+mags[7] =  new Array(0.99,1.68,3.00,4.62,4.88,4.95,5.09,5.29,5.43,5.51,
+                     5.73,5.84,6.10,6.19,6.27,6.29,6.36,6.50,6.55,6.71,
+                     6.76,6.77,6.87,6.88,6.95,7.15,7.17,7.19,7.21,7.30,
+                     7.34)
+mags[8] =  new Array(1.41,2.13,2.23,2.56,3.33,4.41,4.78,5.42,5.44,5.48,
+                     5.50,5.58,5.73,5.92,6.14,6.17,6.27,6.27,6.31,6.40,
+                     6.43,6.52,6.61,6.64,6.78,6.81,6.84,6.85,6.95,7.00,
+                     7.02,7.06,7.07,7.10,7.12,7.12,7.12,7.13,7.13,7.22,
+                     7.26,7.30,7.30,7.31,7.33,7.34,7.36,7.43,7.43,7.44,
+                     7.45,7.48,7.49)
+mags[9] =  new Array(1.06,2.74,3.38,4.39,5.77,5.80,5.86,5.92,5.97,5.99,
+                     6.12,6.41,6.44,6.63,6.64,6.65,6.69,6.83,6.90,7.04,
+                     7.06,7.08,7.16,7.19,7.20,7.24,7.25,7.25,7.32,7.33,
+                     7.34,7.38,7.42)
+mags[10] = new Array(0.16,2.22,2.36,3.04,3.57,4.47,4.51,4.79,4.81,4.93,
+                     5.28,5.51,5.67,5.79,5.81,5.88,5.90,6.00,6.01,6.04,
+                     6.06,6.13,6.13,6.22,6.27,6.32,6.38,6.38,6.40,6.40,
+                     6.56,6.68,6.70,6.71,6.76,6.77,6.79,6.83,6.84,6.87,
+                     6.89,6.94,6.95,6.96,6.96,7.01,7.03,7.04,7.12,7.14,
+                     7.15,7.17,7.21,7.22,7.25,7.30,7.38,7.43,7.45,7.49)
+mags[11] = new Array(2.61,2.63,2.73,3.55,5.10,5.23,5.39,5.39,5.51,5.53,
+                     5.57,5.87,6.25,6.34,6.51,6.52,6.54,6.71,6.85,6.87,
+                     6.88,6.95,6.96,6.97,7.04,7.13,7.16,7.16,7.19,7.21,
+                     7.23,7.25,7.26,7.27,7.27,7.28,7.32,7.34,7.35,7.36,
+                     7.41,7.42,7.43,7.44,7.47,7.48,7.48,7.50,7.50)
+mags[12] = new Array(3.52,3.84,4.32,4.34,4.41,4.98,5.42,5.49,5.56,5.72,
+                     5.99,6.01,6.03,6.05,6.10,6.17,6.47,6.59,6.62,6.67,
+                     6.70,6.89,6.93,7.00,7.01,7.02,7.02,7.03,7.04,7.06,
+                     7.08,7.19,7.23,7.27,7.29,7.31,7.33,7.34,7.37,7.37,
+                     7.38,7.41,7.43,7.44,7.45,7.45,7.46,7.46,7.49)
+mags[13] = new Array(2.23,2.49,3.90,4.65,4.73,4.79,4.94,5.06,5.39,5.58,
+                     5.64,5.87,5.91,6.04,6.25,6.29,6.31,6.34,6.38,6.47,
+                     6.48,6.60,6.73,6.74,6.82,6.87,6.90,6.96,7.00,7.02,
+                     7.02,7.08,7.09,7.10,7.12,7.13,7.23,7.27,7.29,7.30,
+                     7.32,7.33,7.34,7.42,7.42,7.43,7.44,7.44,7.44,7.47,
+                     7.47)
+mags[14] = new Array(2.80,3.14,3.90,4.82,5.07,5.50,5.67,5.82,5.92,5.98,
+                     6.06,6.11,6.16,6.17,6.29,6.34,6.36,6.36,6.45,6.46,
+                     6.58,6.66,6.66,6.74,6.78,6.82,6.85,6.87,6.87,7.00,
+                     7.02,7.04,7.12,7.17,7.23,7.24,7.35,7.37,7.38,7.39,
+                     7.47,7.48,7.49,7.49,7.50,7.50)
+mags[15] = new Array(1.76,1.86,2.89,4.67,5.15,5.64,5.79,5.85,5.88,6.11,
+                     6.42,6.48,6.55,6.70,6.79,6.80,6.81,6.84,6.96,6.98,
+                     6.98,7.05,7.06,7.23,7.26,7.28,7.33,7.38,7.47,7.48)
+mags[16] = new Array(0.08,1.90,2.65,3.03,3.73,3.97,4.33,4.52,5.21,5.46,
+                     5.64,5.91,5.99,6.09,6.11,6.23,6.30,6.30,6.41,6.44,
+                     6.47,6.48,6.51,6.54,6.56,6.57,6.58,6.58,6.59,6.60,
+                     6.63,6.66,6.69,6.75,6.77,6.80,6.81,6.82,6.84,6.86,
+                     6.86,6.89,6.93,6.95,6.95,6.98,6.98,7.01,7.16,7.19,
+                     7.20,7.21,7.24,7.24,7.27,7.31,7.37,7.40,7.46,7.50)
+mags[17] = new Array(2.17,3.87,4.10,4.26,4.83,4.87,4.96,5.01,5.04,5.64,
+                     5.67,5.94,5.98,6.13,6.13,6.39,6.42,6.52,6.55,6.58,
+                     6.60,6.64,6.65,6.68,6.68,6.77,6.77,6.84,6.90,6.95,
+                     7.07,7.14,7.19,7.21,7.23,7.23,7.25,7.26,7.26,7.27,
+                     7.27,7.30,7.33,7.43,7.44,7.46,7.47,7.48,7.50)
+mags[18] = new Array(2.06,3.65,3.89,5.19,5.50,5.81,6.20,6.33,6.40,6.53,
+                     6.70,7.00,7.17,7.22,7.25,7.30,7.33,7.41,7.45,7.49)
+mags[19] = new Array(4.03,4.31,4.62,4.77,5.14,5.44,5.47,5.62,5.63,6.00,
+                     6.04,6.17,6.17,6.20,6.21,6.24,6.25,6.35,6.36,6.38,
+                     6.43,6.49,6.61,6.62,6.63,6.64,6.64,6.66,6.69,6.71,
+                     6.74,6.81,6.82,6.85,6.86,6.88,6.89,6.89,6.92,6.95,
+                     6.97,6.98,6.99,7.01,7.03,7.05,7.08,7.12,7.12,7.14,
+                     7.17,7.27,7.28,7.30,7.32,7.37,7.40,7.43,7.45,7.47)
+mags[20] = new Array(1.23,3.27,3.68,3.96,4.48,4.72,5.54,5.66,5.98,6.28,
+                     6.30,6.35,6.79,6.82,6.97,7.05,7.25,7.42,7.45,7.46,
+                     7.48,7.50)
+mags[21] = new Array(0.28,2.84,3.29,3.87,4.28,4.43,4.47,4.78,5.46,5.49,
+                     5.68,5.68,5.69,5.72,5.82,5.96,5.96,6.05,6.15,6.23,
+                     6.27,6.35,6.40,6.42,6.46,6.47,6.54,6.68,6.71,6.73,
+                     6.75,6.76,6.96,7.02,7.04,7.12,7.14,7.14,7.21,7.21,
+                     7.22,7.28,7.32,7.32,7.33,7.34,7.34,7.37,7.38,7.38,
+                     7.41,7.42,7.43,7.43,7.45,7.45,7.47,7.48)
+mags[22] = new Array(2.59,2.66,2.97,3.01,5.21,5.81,5.95,6.40,6.62,6.84,
+                     7.06,7.25,7.30,7.41,7.44,7.44,7.46)
+mags[23] = new Array(2.61,2.75,3.28,3.92,4.56,5.19,5.64,5.72,6.08,6.14,
+                     6.15,6.17,6.19,6.41,6.46,6.50,6.63,6.64,6.67,6.75,
+                     6.76,6.76,6.80,6.87,6.94,7.07,7.14,7.16,7.19,7.20,
+                     7.22,7.24,7.25,7.29,7.29,7.32,7.35,7.37,7.38,7.41,
+                     7.46,7.49,7.50)
+mags[24] = new Array(1.07,2.29,3.96,5.26,5.40,5.50,5.84,5.92,6.00,6.09,
+                     6.15,6.32,6.41,6.47,6.56,6.56,6.62,6.85,6.90,6.97,
+                     6.98,7.01,7.07,7.13,7.14,7.15,7.26,7.40,7.46)
+mags[25] = new Array(-0.01,1.91,2.84,2.88,3.76,3.85,4.11,4.85,5.08,5.10,
+                     5.11,5.17,5.18,5.29,5.50,5.72,5.75,5.77,5.89,5.89,
+                     5.95,5.95,6.02,6.07,6.12,6.14,6.16,6.17,6.20,6.20,
+                     6.21,6.22,6.25,6.25,6.30,6.31,6.33,6.39,6.42,6.48,
+                     6.50,6.57,6.61,6.70,6.75,6.81,6.85,6.90,6.95,7.00,
+                     7.05,7.10,7.14,7.20,7.24,7.29,7.34,7.40,7.45,7.50)
+mags[26] = new Array(0.64,1.31,1.58,1.65,4.31,4.56,4.59,4.61,4.69,4.92,
+                     5.50,5.75,5.82,6.04,6.20,6.20,6.23,6.42,6.61,6.61,
+                     6.66,6.69,6.73,6.74,6.75,6.92,6.93,6.96,6.98,7.07,
+                     7.11,7.13,7.19,7.19,7.21,7.24,7.26,7.27,7.29,7.31,
+                     7.37,7.38,7.40,7.45,7.50)
+mags[27] = new Array(1.67,1.95,2.25,3.84,3.96,4.00,4.33,5.46,5.54,5.78,
+                     5.79,6.36,6.36,6.49,6.54,6.63,6.72,6.85,6.90,6.93,
+                     6.99,7.04,7.08,7.14,7.15,7.16,7.18,7.19,7.25,7.29,
+                     7.31,7.37,7.38,7.38,7.38,7.38,7.44,7.45,7.46)
+mags[28] = new Array(2.82,2.86,3.26,4.08,4.69,4.74,5.51,5.57,5.67,5.99,
+                     6.09,6.36,6.43,6.57,6.59,6.65,6.66,6.69,6.69,6.71,
+                     6.77,6.81,6.84,6.85,6.86,6.88,6.89,6.89,6.91,6.94,
+                     7.01,7.09,7.09,7.10,7.13,7.19,7.22,7.22,7.23,7.24,
+                     7.26,7.27,7.29,7.30,7.30,7.32,7.32,7.37,7.37,7.37,
+                     7.38,7.39,7.41,7.46,7.47,7.50,7.50)
+mags[29] = new Array(1.92,2.86,3.42,3.65,3.95,4.23,4.76,4.86,5.12,5.15,
+                     5.18,5.61,5.62,5.76,5.92,6.09,6.22,6.22,6.28,6.33,
+                     6.35,6.36,6.40,6.50,6.59,6.70,6.70,6.73,6.77,6.83,
+                     6.84,6.86,6.87,6.91,6.92,6.92,6.97,7.00,7.03,7.09,
+                     7.10,7.10,7.12,7.15,7.18,7.20,7.21,7.23,7.24,7.24,
+                     7.27,7.35,7.36,7.41,7.44,7.44,7.47,7.48,7.50,7.50)
+
+
+var bearings = new Array()
+bearings[0] = "north"
+bearings[1] = "northeast"
+bearings[2] = "east"
+bearings[3] = "southeast"
+bearings[4] = "south"
+bearings[5] = "southwest"
+bearings[6] = "west"
+bearings[7] = "northwest"
+bearings[8] = "north"
+
+
+
+
+// -- low-level cookie functions (from "Cookie Functions" by Bill Dortch, hIdaho Design)
+
+
+function GetCookie(name) {
+  var arg = name + "="
+  var alen = arg.length
+  var clen = document.cookie.length
+  var i = 0
+  while (i < clen) {
+    var j = i + alen
+    if (document.cookie.substring(i, j) == arg) {
+      var endstr = document.cookie.indexOf(";",j)
+      if (endstr == -1)
+        endstr = document.cookie.length
+      return unescape(document.cookie.substring(j,endstr))
+    }
+    i = document.cookie.indexOf(" ", i) + 1
+    if (i == 0) break 
+  }
+  return null
+}
+
+
+
+
+function SetCookie(name,value,expires,path,domain,secure) {
+  document.cookie = name + "=" + escape (value) +
+      ((expires) ? "; expires=" + expires.toGMTString() : "") +
+      ((path) ? "; path=" + path : "") +
+      ((domain) ? "; domain=" + domain : "") +
+      ((secure) ? "; secure" : "")
+}
+
+
+
+
+// -- cookie management 
+
+
+function ExpirationDate(days) {
+  var expDate = new Date();
+  expDate.setTime(expDate.getTime() + (days * 86400000)) 
+  return expDate
+}
+
+
+
+
+function GetCookieValue(type) {
+  var cStr = GetCookie("LimitMagConfig")
+  if (cStr == null)
+    return null
+  else {
+    var cArr = cStr.split("|")
+    switch (type) {
+      case "lat": return cArr[0]
+      case "lon": return cArr[1]
+      case "uto": return cArr[2]
+    }
+  }
+}
+
+
+
+
+function SetCookieValues(lat,lon,uto) {
+  SetCookie("LimitMagConfig",lat + "|" + lon + "|" + uto,ExpirationDate(28))
+}
+
+
+
+
+// -- unit conversion
+
+
+function ToDegrees(rad) {return rad * 180 / Math.PI}
+function ToRadians(deg) {return deg * Math.PI / 180}
+
+
+
+
+// -- astronomical routines
+
+
+function SphericalDistance(alpha1,delta1,alpha2,delta2) {
+  var aDiff = Math.abs(ToRadians(alpha1) - ToRadians(alpha2))
+  if (aDiff > Math.PI)
+    aDiff = (Math.PI * 2) - aDiff
+  delta1 = ToRadians(delta1)
+  delta2 = ToRadians(delta2)
+  var sphDist = ToDegrees(Math.acos((Math.sin(delta1) * Math.sin(delta2)) +
+      (Math.cos(delta1) * Math.cos(delta2) * Math.cos(aDiff))))
+  return sphDist
+}
+
+
+
+
+function SphericalAzimuth(alpha1,delta1,alpha2,delta2) {
+  var aDiff = ToRadians(alpha2) - ToRadians(alpha1)
+  delta1 = (Math.PI / 2) - ToRadians(delta1)
+  delta2 = ToRadians(delta2)
+  var x = (Math.sin(delta1) * Math.sin(delta2)) - (Math.cos(delta1) * Math.cos(delta2) * 
+      Math.cos(aDiff))
+  var y = Math.cos(delta2) * Math.sin(aDiff)
+  var sphAzi = ToDegrees(Math.atan2(y,x))
+  if (sphAzi < 0)
+    sphAzi = sphAzi + 360
+  return sphAzi
+}
+
+
+
+
+function SiderealTime(lon,jd) {
+  var t = (jd - 2451545) / 36525
+  var theta = 280.46061837 + (360.98564736629 * (jd - 2451545)) +
+      (0.000387933 * Math.pow(t,2)) - (Math.pow(t,3) / 38710000)
+  theta = theta + lon
+  theta = theta - (Math.floor(theta / 360) * 360)
+  if (theta < 0)
+    theta = theta + 360
+  return theta
+}
+
+
+
+
+function CalendarToJulian(date) {
+  var year = date.getYear()
+  if (year < 200)
+    year = year + 1900
+  var month = date.getMonth() + 1
+  var day = date.getDate() + (date.getHours() / 24) + (date.getMinutes() / 1440) +
+      (date.getSeconds() / 86400)
+  if (month <= 2) {
+    year = year - 1
+    month = month + 12
+  }
+  var a = Math.floor(year / 100)
+  var b = (2 - a) + Math.floor(a / 4)
+  var jd = Math.floor(365.25 * (year + 4716)) + Math.floor(30.61 * (month + 1)) +
+      day + b - 1524.5
+  return jd
+}
+
+
+
+
+// -- limiting magnitude fields near zenith
+
+
+function ZenithFields(form) {
+  var i; var j
+  var sd; var bearing
+
+
+  // -- read location and time from the interface
+
+
+  var lat = parseFloat(form.lat.value)
+  if (form.ns.options[form.ns.selectedIndex].text == "S")
+    lat = 0 - lat
+  var lon = parseFloat(form.lon.value)
+  if (form.ew.options[form.ew.selectedIndex].text == "W")
+    lon = 0 - lon
+  var uto = form.uto.options[form.uto.selectedIndex].text
+  var jd = CalendarToJulian(GetDate(form)) - (uto / 24)
+  var ra = SiderealTime(lon,jd)
+
+
+  // -- initialize minima arrays
+  
+  var minDist = new Array()
+  var minAzi = new Array()
+  for (i = 1; i <= maxFields; i++) {
+    minDist[i] = 181
+    minAzi[i] = 0
+    nearestFields[i] = -1
+  }
+
+
+  // -- search for the field centers closest to zenith
+
+
+  for (i = 0; i < fieldCenters.length; i++) {
+    sd = SphericalDistance(ra,lat,fieldCenters[i][0],fieldCenters[i][1])
+    for (j = maxFields; j >= 1; j--) {
+      if (sd < minDist[j]) {
+        if (j < maxFields) {
+          minDist[j + 1] = minDist[j]
+          minAzi[j + 1] = minAzi[j]
+          nearestFields[j + 1] = nearestFields[j]
+        }
+        minDist[j] = sd
+        minAzi[j] = SphericalAzimuth(ra,lat,fieldCenters[i][0],fieldCenters[i][1])
+        nearestFields[j] = i
+      }
+      else
+        break
+    }
+  }
+
+
+  // -- populate the interface with the results
+
+
+  for (i = 1; i <= maxFields; i++) {
+    form.elements["field" + i].value = nearestFields[i] + 1
+
+
+    bearing = bearings[Math.floor((minAzi[i] + 22.5) / 45)]
+    form.elements["pos" + i].value = parseInt(minDist[i],10) + "° " + bearing
+    form.elements["constell" + i].value = constellations[nearestFields[i]]
+
+
+    var bstars = stars[nearestFields[i]]
+    for (j = 0; j < 4; j++) {
+      if (j < bstars.length)
+        form.elements["star" + j + "_" + i].value = bstars[j]
+      else
+        form.elements["star" + j + "_" + i].value = ""
+    }
+
+
+    // -- fields 26 and 27 are combined into one image
+
+
+    j = nearestFields[i] + 1
+    j = j == 26 || j == 27 ? 2627 : j
+
+
+    var imgSrc = fieldImagePrefix + j + ".gif"
+    document.images["fieldimg" + i].src = imgSrc
+    document.links[i - 1].href = imgSrc
+  }
+
+
+  FindMagnitudes(form)
+  SetCookieValues(lat,lon,uto)
+}
+
+
+
+
+// -- look up limiting magnitudes from star counts
+
+
+function FindMagnitudes(form) {
+  var avgLM = 0
+  var n = 0
+  var f; var c; var lm
+
+
+  for (i = 1; i <= maxFields; i++) {
+    c = parseInt(form.elements["count" + i].value,10) - 1
+    if (isNaN(c))
+      form.elements["lm" + i].value = ""
+    else {
+      f = nearestFields[i]
+      if (c < 0)
+        c = 0
+      if (c >= mags[f].length)
+        c = mags[f].length - 1
+      lm = mags[f][c]
+      form.elements["lm" + i].value = FormatReal(lm,2)
+      avgLM = avgLM + lm
+      n = n + 1
+    }
+  }
+  
+  if (n == 0)
+    form.elements["avglm"].value = ""
+  else {
+    avgLM = avgLM / n
+    form.elements["avglm"].value = FormatReal(avgLM,2)
+  }
+}
+
+
+
+
+// -- miscellaneous
+
+
+function FormatReal(n,d) {
+  var parts = (((parseInt(n * Math.pow(10,d + 1),10) + 5) / Math.pow(10,d + 1)) + "").split(".")
+  if (parts[0] == "")
+    parts[0] = "0"
+  var dd = d - parts[1].length
+  if (dd > 0)
+    parts[1] = parts[1] + "00000000".substr(0,dd)
+  if (dd < 0)
+    parts[1] = parts[1].substr(0,d)
+  return parts[0] + "." + parts[1] 
+}
+
+
+
+
+function GetDate(form) {
+  var yr = parseInt(form.yr.options[form.yr.selectedIndex].text,10)
+  var mon = form.mon.selectedIndex
+  var day = parseInt(form.day.options[form.day.selectedIndex].text,10)
+  var hr = parseInt(form.hr.options[form.hr.selectedIndex].text,10) % 12
+  if (form.mer.options[form.mer.selectedIndex].text == "PM")
+    hr = hr + 12
+  var min = parseInt(form.min.options[form.min.selectedIndex].text,10)
+  return new Date(yr,mon,day,hr,min)
+}
+
+
+
+
+//-->
+</SCRIPT>
+</HEAD>
+
+
+
+
+<BODY bgcolor="#DDFFDD">
+<H2>Limiting Magnitude Field Locator and Calculator</H2>
+<pre>
+
+</pre>
+
+<!--  BEGIN INTRODUCTORY TEXT  //-->
+<h4>To determine the best placed star fields to use from your location:</h4>
+
+<ul>
+<li>enter your latitude, longitude and UT date and time.
+<li>click the <b>Locate Fields Nearest Zenith</b> button.
+<li>the program will then generate three star fields based on the International Meteor Organization's star count areas. An image of the star field is provided that also serves as a link to a larger image of the field.
+<li><b>NOTE:</b> You must run this script again after viewing larger images - ie. you must click the <i>Locate Fields Nearest Zenith<u></u></i> button to refresh the page, otherwise, you will get an error.
+</ul>
+
+<h4>To determine the limiting magnitude using the star count method:</h4>
+<ul>
+<li>enter the number of stars counted for each of the three fields.
+<li>the program will then provide a limiting magnitude for each field, as well as an average limiting magnitude for all three.
+<li>note that you may use only one or two of the fields with the same results.</ul>
+
+
+<p>Our thanks to Peter Girard for the creation of this page!</p>
+<hr>
+
+
+<!--   END INTRODUCTORY TEXT   //-->
+
+
+
+
+<NOSCRIPT>
+<P>This page requires JavaScript.  Either your browser does not support
+JavaScript or it currently has JavaScript turned off.
+</NOSCRIPT>
+
+
+
+
+<FORM>
+<TABLE>
+  <TR>
+    <TD>Latitude</TD><TD>
+<INPUT type='text' name='lat' size='4' value='33'>
+<SELECT name='ns' size='1'>
+<OPTION SELECTED>N
+<OPTION>S
+</SELECT>
+    </TD>
+    <TD width='10'></TD>
+    <TD>Longitude</TD><TD>
+<INPUT type='text' name='lon' size='4' value='80'>
+<SELECT name='ew' size='1'>
+<OPTION SELECTED>W
+<OPTION>W
+</SELECT>
+    </TD>
+    <TD width='30'></TD>
+    <TD>Universal Time</TD>
+    <TD>
+<SELECT name='uto' size='1'>
+<OPTION>-12
+<OPTION>-11.5
+<OPTION>-11
+<OPTION>-10.5
+<OPTION>-10
+<OPTION>-9.5
+<OPTION>-9
+<OPTION>-8.5
+<OPTION>-8
+<OPTION>-7.5
+<OPTION>-7
+<OPTION>-6.5
+<OPTION>-6
+<OPTION>-5.5
+<OPTION SELECTED>-5
+<OPTION>-4.5
+<OPTION>-4
+<OPTION>-3.5
+<OPTION>-3
+<OPTION>-2.5
+<OPTION>-2
+<OPTION>-1.5
+<OPTION>-1
+<OPTION>-0.5
+<OPTION>+0
+<OPTION>+0.5
+<OPTION>+1
+<OPTION>+1.5
+<OPTION>+2
+<OPTION>+2.5
+<OPTION>+3
+<OPTION>+3.5
+<OPTION>+4
+<OPTION>+4.5
+<OPTION>+5
+<OPTION>+5.5
+<OPTION>+6
+<OPTION>+6.5
+<OPTION>+7
+<OPTION>+7.5
+<OPTION>+8
+<OPTION>+8.5
+<OPTION>+9
+<OPTION>+9.5
+<OPTION>+10
+<OPTION>+10.5
+<OPTION>+11
+<OPTION>+11.5
+<OPTION>+12
+</SELECT>
+    </TD>
+    <TD>hours</TD>
+  </TR>
+</TABLE>
+<TABLE>
+  <TR>
+    <TD>Date</TD><TD>
+<SELECT name='yr' size=1>
+<OPTION>2012
+<OPTION SELECTED>2013
+<OPTION>2014
+</SELECT>
+<SELECT name='mon' size='1'>
+<OPTION>Jan
+<OPTION>Feb
+<OPTION>Mar
+<OPTION>Apr
+<OPTION>May
+<OPTION SELECTED>Jun
+<OPTION>Jul
+<OPTION>Aug
+<OPTION>Sep
+<OPTION>Oct
+<OPTION>Nov
+<OPTION>Dec
+</SELECT>
+<SELECT name='day' size='1'>
+<OPTION>1
+<OPTION>2
+<OPTION>3
+<OPTION>4
+<OPTION>5
+<OPTION>6
+<OPTION>7
+<OPTION>8
+<OPTION>9
+<OPTION>10
+<OPTION>11
+<OPTION>12
+<OPTION>13
+<OPTION>14
+<OPTION SELECTED>15
+<OPTION>16
+<OPTION>17
+<OPTION>18
+<OPTION>19
+<OPTION>20
+<OPTION>21
+<OPTION>22
+<OPTION>23
+<OPTION>24
+<OPTION>25
+<OPTION>26
+<OPTION>27
+<OPTION>28
+<OPTION>29
+<OPTION>30
+<OPTION>31
+</SELECT>
+    </TD>
+    <TD width='20'></TD>
+    <TD>Time</TD><TD>
+<SELECT name='hr' size='1'>
+<OPTION>12
+<OPTION>1
+<OPTION>2
+<OPTION>3
+<OPTION SELECTED>4
+<OPTION>5
+<OPTION>6
+<OPTION>7
+<OPTION>8
+<OPTION>9
+<OPTION>10
+<OPTION>11
+</SELECT>
+<SELECT name='min' size='1'>
+<OPTION>00
+<OPTION>15
+<OPTION SELECTED>30
+<OPTION>45
+</SELECT>
+<SELECT name="mer" size=1>
+<OPTION SELECTED>AM
+<OPTION>PM
+</SELECT>
+    </TD>
+  </TR>
+</TABLE>
+<TABLE><TR><TD>
+<INPUT type='button' value='Locate Fields Nearest Zenith' onclick='ZenithFields(this.form)'><P>
+</TD></TR></TABLE>
+<P><HR>
+<TABLE>
+<TR><TD align='right' valign='top'><B>1</B></TD><TD>
+<TABLE>
+<TR><TD>The center of field 
+<INPUT type='text' name='field1' value='' size='3' readonly> is 
+<INPUT type='text' name='pos1' value='' size='15' readonly>of zenith
+</TD></TR>
+<TR><TD>The field is in<BR>
+<INPUT type='text' name='constell1' value='' size='40' readonly>
+</TD></TR>
+<TR><TD>and is bounded by the stars<BR>
+<INPUT type='text' name='star0_1' value='' size='40' readonly><BR>
+<INPUT type='text' name='star1_1' value='' size='40' readonly><BR>
+<INPUT type='text' name='star2_1' value='' size='40' readonly><BR>
+<INPUT type='text' name='star3_1' value='' size='40' readonly><BR>
+</TD></TR>
+<TR><TD><FONT SIZE='-1'><I>Click to see at full size</I></FONT><BR>
+<A href="''"><IMG name='fieldimg1' height='150' width='150'></A>
+</TD></TR>
+<TR><TD>Stars counted in this field
+<INPUT type='text' name='count1' value='' size='3' onkeyup='FindMagnitudes(this.form)' onblur='FindMagnitudes(this.form)'>
+ = Limiting magnitude
+<INPUT type='text' name='lm1' value='' size='5' readonly>
+</TD></TR>
+</TABLE>
+</TD></TR>
+</TABLE>
+<P><HR>
+<TABLE>
+<TR><TD align='right' valign='top'><B>2</B></TD><TD>
+<TABLE>
+<TR><TD>The center of field 
+<INPUT type='text' name='field2' value='' size='3' readonly> is 
+<INPUT type='text' name='pos2' value='' size='15' readonly>of zenith
+</TD></TR>
+<TR><TD>The field is in<BR>
+<INPUT type='text' name='constell2' value='' size='40' readonly>
+</TD></TR>
+<TR><TD>and is bounded by the stars<BR>
+<INPUT type='text' name='star0_2' value='' size='40' readonly><BR>
+<INPUT type='text' name='star1_2' value='' size='40' readonly><BR>
+<INPUT type='text' name='star2_2' value='' size='40' readonly><BR>
+<INPUT type='text' name='star3_2' value='' size='40' readonly><BR>
+</TD></TR>
+<TR><TD><FONT SIZE='-1'><I>Click to see at full size</I></FONT><BR>
+<A href="''"><IMG name='fieldimg2' height='150' width='150'></A>
+</TD></TR>
+<TR><TD>Stars counted in this field
+<INPUT type='text' name='count2' value='' size='3' onkeyup='FindMagnitudes(this.form)' onblur='FindMagnitudes(this.form)'>
+ = Limiting magnitude
+<INPUT type='text' name='lm2' value='' size='5' readonly>
+</TD></TR>
+</TABLE>
+</TD></TR>
+</TABLE>
+<P><HR>
+<TABLE>
+<TR><TD align='right' valign='top'><B>3</B></TD><TD>
+<TABLE>
+<TR><TD>The center of field 
+<INPUT type='text' name='field3' value='' size='3' readonly> is 
+<INPUT type='text' name='pos3' value='' size='15' readonly>of zenith
+</TD></TR>
+<TR><TD>The field is in<BR>
+<INPUT type='text' name='constell3' value='' size='40' readonly>
+</TD></TR>
+<TR><TD>and is bounded by the stars<BR>
+<INPUT type='text' name='star0_3' value='' size='40' readonly><BR>
+<INPUT type='text' name='star1_3' value='' size='40' readonly><BR>
+<INPUT type='text' name='star2_3' value='' size='40' readonly><BR>
+<INPUT type='text' name='star3_3' value='' size='40' readonly><BR>
+</TD></TR>
+<TR><TD><FONT SIZE='-1'><I>Click to see at full size</I></FONT><BR>
+<A href="''"><IMG name='fieldimg3' height='150' width='150'></A>
+</TD></TR>
+<TR><TD>Stars counted in this field
+<INPUT type='text' name='count3' value='' size='3' onkeyup='FindMagnitudes(this.form)' onblur='FindMagnitudes(this.form)'>
+ = Limiting magnitude
+<INPUT type='text' name='lm3' value='' size='5' readonly>
+</TD></TR>
+</TABLE>
+</TD></TR>
+</TABLE>
+<P><HR>
+<TABLE>
+<TR><TD>Average limiting magnitude
+<INPUT type='text' name='avglm' value='' size='5' readonly></TD><TD>
+</TABLE>
+
+
+<PRE>
+
+
+</PRE>
+</BODY>
+
+
+
+
+
+
+
+
+<BR>
+
+
+<IMG src="bar.gif"><BR>
+<A href="http://www.namnmeteors.org"><IMG src="namnsmall.gif"></A><BR>
+<IMG src="bar.gif"><P>
+
+
+<script language="JavaScript" type="text/javascript">
+<!--
+
+		
+	document.write("<i>This page last updated</i> " + document.lastModified)
+		
+	
+// -->
+</script>
+
+
+
+
+</HTML>
