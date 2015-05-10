@@ -28,8 +28,6 @@ select {
     outline:none;
 }
 
-
-
 </style>
 <script>
 
@@ -544,7 +542,7 @@ function ZenithFields(form) {
     j = nearestFields[i] + 1
     j = j == 26 || j == 27 ? 2627 : j
 
-    var imgSrc = fieldImagePrefix + j + ".gif"
+    var imgSrc = fieldImagePrefix + j + "_out.gif"
     document.images["fieldimg" + i].src = imgSrc
     document.links[i - 1].href = imgSrc
   }
@@ -640,11 +638,11 @@ JavaScript or it currently has JavaScript turned off.
     <td>Latitude</td>
 		<td>
 			<input type='text' name='lat' size='4' value='33'>
-			<select name='ns' size='1'>
-			<option selected>N
-			<option>S
-			</select>
-    </td>
+		    <select name='ns' size='1'>
+	        <option selected>N
+	        <option>S
+		    </select>
+        </td>
     <td width='10'></td>
     <td>Longitude</td>
 		<td>
